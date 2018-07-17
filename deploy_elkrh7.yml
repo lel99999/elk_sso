@@ -1,0 +1,25 @@
+---
+- hosts: elkrh7
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: install libselinux-python
+#     become: yes
+#     become_method: sudo
+      yum:
+        name: libselinux-python
+        state: present
+#   - name: copy ecs local to remote
+#     become: yes
+#     become_method: sudo
+#     copy:
+#       src: files/ecs-13.8.9-linux-x64.bin
+#       dest: /opt
+#       owner: root
+#       group: root
+#       mode: 0755
+
+#   - name: install ecs
+#     become: yes
+#     become_method: suod
+#     command: /opt/ecs-13.8.9-linux-x64.bin

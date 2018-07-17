@@ -1,0 +1,5 @@
+[linuxhosts]
+elkrh7 ansible_host=192.168.60.172
+
+[windowshosts]
+winELKAD01 ansible_host=192.168.60.170
