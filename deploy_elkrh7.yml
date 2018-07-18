@@ -43,3 +43,11 @@
 #       url:  http://download.oracle.com/otn-pub/java/jdk/8u73-b02/jdk-8u73-linux-x64.rpm
 #       dest: /opt
 #       headers: 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
+    - name: import ElasticSearch Key
+      command: rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch
+    - name: create new yum repository file for ElasticSearch
+      command: echo '[elasticsearch-2.x]\nname=Elasticsearch repository for 2.x packages\nbaseurl=http://packages.elastic.co/elasticsearch/2.x/centos\ngpgcheck=1\ngpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch\nenabled=1' | sudo tee /etc/yum.repos.d/elasticsearch.repo
+    - name: install ElasticSearch
+      command: yum -y install elasticsearch
+#     yum:
+#       name: 
