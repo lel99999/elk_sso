@@ -189,7 +189,8 @@
       register: logstash_configtest
 
     - name: print Logstash Configtest 
-      debug: msg="{{ logstash_configtest.stdout }}"
+      debug: 
+        msg: "{{ logstash_configtest.stdout }}"
 
     - name: restart Logstash
       command: systemctl restart logstash
@@ -202,3 +203,19 @@
         url: https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.0.zip
         dest: /opt/beats-dashboards-1.1.0.zip
         
+#  INSTALL X-Pack
+    - name: download X-Pack
+      get_url:
+        url:  https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-6.2.4.zip
+        dest: /opt
+        owner: root
+        group: root
+#       mode: 0644
+4
+    - name: install X-Pack Elastic Search
+      command: /usr/share/elasticsearch/bin/elastic-search install x-pack
+
+#   - name: Manually download X-Pack
+#     command: curl -O https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-6.2.4.zip 
+
+
