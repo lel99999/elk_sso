@@ -125,8 +125,10 @@
       command: service logstash configtest
       register: logstash_configtest
 
-    - name: print Logstash Configtest 
-      debug: msg="{{ logstash_configtest.stdout }}"
+#   - name: print Logstash Configtest 
+    - debug: 
+        msg: "{{ logstash_configtest.stdout }}"
+        verbosity: 4
 
     - name: restart Logstash
       command: systemctl restart logstash
