@@ -1,82 +1,19 @@
 ---
 - hosts: elkrh7
-  vars:
-#   download_url: http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz
-    download_url: http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-linux-x64.tar.gz 
-    download_folder: /opt
-    java_name: "{{download_folder}}/jdk1.8.0_181"
-    java_archive: "{{download_folder}}/jdk-8u181-linux-x64.tar.gz"
-
   become: yes
   become_method: sudo
   tasks:
-    - name: install libselinux-python
-#     become: yes
-#     become_method: sudo
-      yum:
-        name: libselinux-python
-        state: present
-    - name: create directory
-      file:
-        path: /opt/oarcle
-        state: directory
-        owner: root
-        group: root
-        mode: 0755
-    - name: create dir1
-      file: 
-        path: /opt/oracle/jdk1.8.0_181
-        state: directory
-        owner: root
-        group: root
-        mode: 0755
-
-    
-    - name: download java 8
-      get_url: url={{ download_url }} dest={{ java_archive }} headers="Cookie:' gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'" validate_certs=no owner=root group=root mode=744 
-    - name: unpack archive
-      file: state=directory path={{ java_name }} owner=root group=root recurse=yes
-    - name: update alternatives
-      command: alternatives --install /usr/bin/java java {{ java_name }}/bin/java 50
-
-#     command: wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u73-b02/jdk-8u73-linux-x64.rpm"
-#     get_url:
-#       url:  http://download.oracle.com/otn-pub/java/jdk/8u73-b02/jdk-8u73-linux-x64.rpm
-#       dest: /opt
-#       headers: 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
-    - name: import ElasticSearch Key
-      command: rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch
-    - name: create new yum repository file for ElasticSearch
-      shell: echo $'[elasticsearch-2.x]\nname=Elasticsearch repository for 2.x packages\nbaseurl=http://packages.elastic.co/elasticsearch/2.x/centos\ngpgcheck=1\ngpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch\nenabled=1' | sudo tee /etc/yum.repos.d/elasticsearch.repo
-    
-    - name: install ElasticSearch
-      command: yum -y install elasticsearch
-    - name: start ElasticSearch
-      command: systemctl start elasticsearch
-    - name: enable ElasticSearch
-      command: systemctl enable elasticsearch
-
-    - name: create Kibana repo
-      shell:  echo $'[kibana-4.4]\nname=Kibana repository for 4.4.x packages\nbaseurl=http://packages.elastic.co/kibana/4.4/centos\ngpgcheck=1\ngpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch\nenabled=1' | sudo tee /etc/yum.repos.d/kibana.repo
-    - name: install Kibana
-      command: yum -y install kibana
-    - name: start Kibana
-      command: systemctl start kibana
-    - name: enable Kibana
-      command: chkconfig kibana on
-
-#   - name: install epel-release
-#     command: rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-#      get_url:
-#        url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-#        dest: /tmp/epel-release-latest-7.noarch.rpm
-#   - name: yum update
-#     command: yum -y update
-    - name: create epel repo
-      shell: echo $'[epel]\nname=Extra Packages for Enterprise Linux 7\nbaseurl=http://download.fedoraproject.org/pub/epel/7/$basearch\nmetalink=https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch\nenabled=1\ngpgcheck=1\ngpgkey=http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7' | sudo tee /etc/yum.repos.d/epel7.repo
+#   - name: create epel repo
+#     shell: echo $'[epel]\nname=Extra Packages for Enterprise Linux 7\nbaseurl=http://download.fedoraproject.org/pub/epel/7/$basearch\nmetalink=https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch\nenabled=1\ngpgcheck=1\ngpgkey=http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7' | sudo tee /etc/yum.repos.d/epel7.repo
 
     - name: install epel
       command: yum -y install epel-release
+
+    - name: create nginx repo for rh7
+      shell: echo $'[nginx]\nname=nginx repo\nbaseurl=http://nginx.org/packages/mainline/rhel/7/$basearch/\ngpgcheck=0\nenabled=1' | sudo tee /etc/yum.repos.d/ninx.repo
+
+    - name: yum update
+      command: yum -y update
 
     - name: install Ngix and Httpd-tools 
       command: yum -y install nginx httpd-tools
