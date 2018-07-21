@@ -15,7 +15,7 @@
     - name: yum update
       command: yum -y update
 
-    - name: install Ngix and Httpd-tools 
+    - name: install Nginx and Httpd-tools 
       command: yum -y install nginx httpd-tools
   
 #   - name: edit kibanaadmin passwd
