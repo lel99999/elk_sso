@@ -211,7 +211,7 @@
         owner: root
         group: root
 #       mode: 0644
-4
+
     - name: install X-Pack Elastic Search
       command: /usr/share/elasticsearch/bin/elastic-search install x-pack
 
