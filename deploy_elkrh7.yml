@@ -64,7 +64,21 @@
       command: systemctl start kibana
     - name: enable Kibana
       command: chkconfig kibana on
-
+    - name: check epel repo is already configured
+      stat: path={{ epel_repofile_path }}
+      register: epel_repofile_result
+      
+    - name: install epel repo
+      yum:
+        name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+        state: present
+      register: result
+      when: not epel_repofile_result.stat.exists
+    - name: import epel gpg key
+      rpm_key:
+        key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+        state: present
+      when: not epel_repofile_result.stat.exists
     - name: install epel-release
       command: yum -y install epel-release
 
@@ -75,12 +89,12 @@
 #     command: htpasswd -c /etc/nginx/htpasswd.users kibanaadmin
 
     - htpasswd:
-      path: /etc/nginx/passwdfile
-      name: kibanaadmin
-      password: 'BADP@ssw0rd'
-      owner: root
-      group: root
-      mode: 0640
+        path: /etc/nginx/passwdfile
+        name: kibanaadmin
+        password: 'BADP@ssw0rd'
+        owner: root
+        group: root
+        mode: 0640
 
 #   - name: update Nginx configuration
     - replace:
