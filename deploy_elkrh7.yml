@@ -64,7 +64,6 @@
       command: systemctl start kibana
     - name: enable Kibana
       command: chkconfig kibana on
-<<<<<<< HEAD
     - name: check epel repo is already configured
       stat: path={{ epel_repofile_path }}
       register: epel_repofile_result
@@ -81,7 +80,6 @@
         state: present
       when: not epel_repofile_result.stat.exists
     - name: install epel-release
-=======
 
 #   - name: install epel-release
 #     command: rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
