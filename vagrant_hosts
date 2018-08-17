@@ -1,5 +1,5 @@
 [linuxhosts]
-elkrh7 ansible_host=192.168.60.172
+elkrh7 ansible_host=192.168.60.172 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 
 [windowshosts]
 winELKAD01 ansible_host=192.168.60.170

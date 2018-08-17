@@ -13,7 +13,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "elkrh7" do |elkrh7|
     #elkrh7.vm.box = "generic/rhel7"
-    elkrh7.vm.box = "iamseth/rhel-7.3"
+#   elkrh7.vm.box = "iamseth/rhel-7.3"
+    elkrh7.vm.box = "oravirt/rhel75"
     #elkrh7.vm.box = "javier-lopez/rhel-7.4"
     #elkrh7.vm.box = "xianlin/rhel-7.4"
     elkrh7.vm.hostname = "elkrh7"
