@@ -230,9 +230,13 @@
         owner: root
         group: root
 #       mode: 0644
-
     - name: install X-Pack Elastic Search
-      command: /usr/share/elasticsearch/bin/elastic-search install x-pack
+      command: /usr/share/elasticsearch/bin/elastic-search install file:///opt/x-pack-6.2.4.zip --batch
+
+    - name: create certificate authority for ElasticSearch
+      command: bin/x-pack/certutil ca
+
+#     command: /usr/share/elasticsearch/bin/elastic-search install x-pack
 
 #   - name: Manually download X-Pack
 #     command: curl -O https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-6.2.4.zip 
